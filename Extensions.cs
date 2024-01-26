@@ -11,6 +11,11 @@ public static class FloatExtensions
     public static float Lerp(this float f, float to, float w) {
         return f + (w * (to - f));
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsZeroApprox(this float f) {
+        return Math.Abs(f) < 1E-06f;
+    }
 }
 
 public static class DoubleExtensions
@@ -21,6 +26,11 @@ public static class DoubleExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Lerp(this double f, double to, double w) {
         return f + (w * (to - f));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsZeroApprox(this double f) {
+        return Math.Abs(f) < 1E-06f;
     }
 }
 
