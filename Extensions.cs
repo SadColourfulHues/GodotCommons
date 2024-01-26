@@ -9,7 +9,7 @@ public static class FloatExtensions
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float Lerp(this float f, float to, float w) {
-        return f + (to - f) * w;
+        return f + (w * (to - f));
     }
 }
 
@@ -21,6 +21,29 @@ public static class DoubleExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Lerp(this double f, double to, double w) {
         return f + (w * (to - f));
+    }
+}
+
+public static class Vector2Extensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 Rotated90(this Vector2 v) {
+        return v.Rotated(0.25f * Mathf.Tau);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 Rotated180(this Vector2 v) {
+        return v.Rotated(0.5f * Mathf.Tau);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 RotatedNeg90(this Vector2 v) {
+        return v.Rotated(-0.25f * Mathf.Tau);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 RotatedNeg180(this Vector2 v) {
+        return v.Rotated(-0.5f * Mathf.Tau);
     }
 }
 
@@ -46,6 +69,18 @@ public static class Vector3Extensions
     {
         float len = v.XZMagnitude();
         return new(v.X / len, zeroY ? 0.0f : v.Y, v.Z / len);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 XZFlattened(this Vector3 v)
+    {
+        return new(v.X, 0.0f, v.Z);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 XZFlattenedN(this Vector3 v)
+    {
+        return new Vector3(v.X, 0.0f, v.Z).Normalized();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
