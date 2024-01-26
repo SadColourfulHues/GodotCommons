@@ -89,6 +89,7 @@ public static class Trans3DExtensions
 
 public static class GArrayExtensions
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsEmpty(this Collections.Array a) {
         return a.Count < 1;
     }
@@ -96,8 +97,14 @@ public static class GArrayExtensions
 
 public static class GDictExtensions
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsEmpty(this Collections.Dictionary d) {
         return d.Count < 1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T Get<[MustBeVariant] T>(this Collections.Dictionary d, StringName key) {
+        return d[key].As<T>();
     }
 }
 
