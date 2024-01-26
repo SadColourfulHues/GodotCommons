@@ -42,6 +42,13 @@ public static class Vector3Extensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 XZNormalised(this Vector3 v)
+    {
+        float len = v.XZMagnitude();
+        return new(v.X / len, v.Y, v.Z / len);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3 XZScale(this Vector3 v, float amount)
     {
         Vector3 scaled = v;
