@@ -20,7 +20,7 @@ public static class DoubleExtensions
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Lerp(this double f, double to, double w) {
-        return f + (to - f) * w;
+        return f + (w * (to - f));
     }
 }
 
@@ -42,10 +42,10 @@ public static class Vector3Extensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Vector3 XZNormalised(this Vector3 v)
+    public static Vector3 XZNormalised(this Vector3 v, bool zeroY = true)
     {
         float len = v.XZMagnitude();
-        return new(v.X / len, v.Y, v.Z / len);
+        return new(v.X / len, zeroY ? 0.0f : v.Y, v.Z / len);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -63,8 +63,8 @@ public static class Vector3Extensions
     public static Vector3 XZLerp(this Vector3 v, Vector3 o, float w)
     {
         Vector3 result = v;
-        v.X = v.X.Lerp(o.X, w);
-        v.Z = v.Z.Lerp(o.Z, w);
+        result.X = result.X.Lerp(o.X, w);
+        result.Z = result.Z.Lerp(o.Z, w);
 
         return result;
     }
@@ -84,3 +84,21 @@ public static class Trans3DExtensions
         return t.InterpolateWith(nt, w);
     }
 }
+
+# region Godot Collections
+
+public static class GArrayExtensions
+{
+    public static bool IsEmpty(this Collections.Array a) {
+        return a.Count < 1;
+    }
+}
+
+public static class GDictExtensions
+{
+    public static bool IsEmpty(this Collections.Dictionary d) {
+        return d.Count < 1;
+    }
+}
+
+#endregion
