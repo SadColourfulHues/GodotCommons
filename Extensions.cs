@@ -153,4 +153,48 @@ public static class GDictExtensions
     }
 }
 
+public static class PackedSceneExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T Spawn<T>(
+        this PackedScene scene,
+        Node parent,
+        Vector3 position,
+        PackedScene.GenEditState editState = PackedScene.GenEditState.Disabled)
+        where T: Node3D
+    {
+        T instance = scene.Instantiate<T>(editState);
+        parent.AddChild(instance);
+
+        instance.GlobalPosition = position;
+        return instance;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Spawn2D(
+        this PackedScene scene,
+        Node parent,
+        Vector2 position,
+        PackedScene.GenEditState editState = PackedScene.GenEditState.Disabled)
+    {
+        Node2D instance = scene.Instantiate<Node2D>(editState);
+        parent.AddChild(instance);
+
+        instance.GlobalPosition = position;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Spawn3D(
+        this PackedScene scene,
+        Node parent,
+        Vector3 position,
+        PackedScene.GenEditState editState = PackedScene.GenEditState.Disabled)
+    {
+        Node3D instance = scene.Instantiate<Node3D>(editState);
+        parent.AddChild(instance);
+
+        instance.GlobalPosition = position;
+    }
+}
+
 #endregion
