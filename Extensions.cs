@@ -37,6 +37,11 @@ public static class DoubleExtensions
 public static class Vector2Extensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 Offset(this Vector2 v, float x, float y) {
+        return new(v.X + x, v.Y + y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 Rotated90(this Vector2 v) {
         return v.Rotated(0.25f * Mathf.Tau);
     }
@@ -59,6 +64,11 @@ public static class Vector2Extensions
 
 public static class Vector3Extensions
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 Offset(this Vector3 v, float x, float y, float z) {
+        return new(v.X + x, v.Y + y, v.Z + z);
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 XZAsVec2(this Vector3 v) {
         return new(v.X, v.Z);
@@ -129,6 +139,98 @@ public static class Trans3DExtensions
         return t.InterpolateWith(nt, w);
     }
 }
+
+#region Nodes
+
+public static class NodeExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void RemoveFromParent(this Node node)
+    {
+        Node parent = node.GetParentOrNull<Node>();
+
+        if (parent is null)
+            return;
+
+        parent.RemoveChild(node);
+    }
+}
+
+public static class Node2DExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SpawnPackage<T>(
+        this Node2D node,
+        PackedScene scene,
+        Vector2 position,
+        PackedScene.GenEditState editState = PackedScene.GenEditState.Disabled)
+        where T: Node2D
+    {
+        if (!GodotObject.IsInstanceValid(scene))
+            return null;
+
+        T instance = scene.Instantiate<T>(editState);
+        node.AddChild(instance);
+
+        instance.GlobalPosition = position;
+        return instance;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SpawnPackage(
+        this Node2D node,
+        PackedScene scene,
+        Vector2 position,
+        PackedScene.GenEditState editState = PackedScene.GenEditState.Disabled)
+    {
+        if (!GodotObject.IsInstanceValid(scene))
+            return;
+
+        Node2D instance = scene.Instantiate<Node2D>(editState);
+        node.AddChild(instance);
+
+        instance.GlobalPosition = position;
+    }
+}
+
+public static class Node3DExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T SpawnPackage<T>(
+        this Node3D node,
+        PackedScene scene,
+        Vector3 position,
+        PackedScene.GenEditState editState = PackedScene.GenEditState.Disabled)
+        where T: Node3D
+    {
+        if (!GodotObject.IsInstanceValid(scene))
+            return null;
+
+        T instance = scene.Instantiate<T>(editState);
+        node.AddChild(instance);
+
+        instance.GlobalPosition = position;
+        return instance;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SpawnPackage(
+        this Node3D node,
+        PackedScene scene,
+        Vector3 position,
+        PackedScene.GenEditState editState = PackedScene.GenEditState.Disabled)
+    {
+        if (!GodotObject.IsInstanceValid(scene))
+            return;
+
+        Node3D instance = scene.Instantiate<Node3D>(editState);
+        node.AddChild(instance);
+
+        instance.GlobalPosition = position;
+    }
+}
+
+#endregion
 
 # region Godot Collections
 
