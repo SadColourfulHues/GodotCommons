@@ -230,6 +230,51 @@ public static class Node3DExtensions
     }
 }
 
+public static class Rigidbody3DExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ApplyTorqueAndImpulse(
+        this RigidBody3D rb,
+        Vector3 force,
+        Vector3 torque)
+    {
+        rb.ApplyImpulse(force);
+        rb.ApplyTorque(torque);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ApplyVisualTorqueAndImpulse(
+        this RigidBody3D rb,
+        Vector3 force,
+        Vector3 torque)
+    {
+        rb.ApplyImpulse(force);
+        rb.ApplyTorqueImpulse(torque);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ApplyTorqueAndImpulse(
+        this RigidBody3D rb,
+        Vector3 force,
+        Vector3 torque,
+        Vector3 fromPosition)
+    {
+        rb.ApplyImpulse(force, fromPosition);
+        rb.ApplyTorque(torque);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ApplyVisualTorqueAndImpulse(
+        this RigidBody3D rb,
+        Vector3 force,
+        Vector3 torque,
+        Vector3 fromPosition)
+    {
+        rb.ApplyImpulse(force, fromPosition);
+        rb.ApplyTorqueImpulse(torque);
+    }
+}
+
 #endregion
 
 # region Godot Collections
