@@ -34,6 +34,23 @@ public static class DoubleExtensions
     }
 }
 
+public static class GodotObjectExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T GetMeta<[MustBeVariant] T>(this GodotObject @object, StringName id) {
+        return @object.GetMeta(id).As<T>();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T GetMetaOr<[MustBeVariant] T>(this GodotObject @object, StringName id, T defaultValue = default)
+    {
+        if (!@object.HasMeta(id))
+            return defaultValue;
+
+        return @object.GetMeta(id).As<T>();
+    }
+}
+
 public static class Vector2Extensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
