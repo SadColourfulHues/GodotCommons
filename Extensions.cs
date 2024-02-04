@@ -171,6 +171,15 @@ public static class NodeExtensions
 
         parent.RemoveChild(node);
     }
+
+    /// <summary>
+    /// A shorthand for getting nodes with the exact same name as their type.
+    /// </summary>
+    /// <returns></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T GetNodeComponent<T>(this Node node) where T: Node {
+        return node.GetNode<T>(typeof(T).Name);
+    }
 }
 
 public static class Node2DExtensions
