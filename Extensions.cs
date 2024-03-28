@@ -77,6 +77,12 @@ public static class Vector2Extensions
     public static Vector2 RotatedNeg180(this Vector2 v) {
         return v.Rotated(-0.5f * Mathf.Tau);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsXDominant(this Vector2 v) {
+        Vector2 absV = v.Abs();
+        return (absV.X > absV.Y);
+    }
 }
 
 public static class Vector3Extensions
