@@ -16,6 +16,21 @@ public static class FloatExtensions
     public static bool IsZeroApprox(this float f) {
         return Math.Abs(f) < 1E-06f;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 AsVector2(this float v) {
+        return new(v, v);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 AsVector3(this float v) {
+        return new(v, v, v);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color AsColour(this float v) {
+        return new(v, v, v, 1.0f);
+    }
 }
 
 public static class DoubleExtensions
