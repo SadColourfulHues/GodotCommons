@@ -69,6 +69,14 @@ public static class GodotObjectExtensions
 public static class Vector2Extensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 ReplaceX(this Vector2 v, float x)
+        => new(x, v.Y);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 ReplaceY(this Vector2 v, float y)
+        => new(v.X, y);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 Offset(this Vector2 v, float x, float y) {
         return new(v.X + x, v.Y + y);
     }
@@ -102,6 +110,18 @@ public static class Vector2Extensions
 
 public static class Vector3Extensions
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 ReplaceX(this Vector3 v, float x)
+        => new(x, v.Y, v.Z);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 ReplaceY(this Vector3 v, float y)
+        => new(v.X, y, v.Z);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 ReplaceZ(this Vector3 v, float z)
+        => new(v.X, v.Y, z);
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3 Offset(this Vector3 v, float x, float y, float z) {
         return new(v.X + x, v.Y + y, v.Z + z);
