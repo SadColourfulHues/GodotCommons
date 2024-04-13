@@ -13,8 +13,53 @@ public static class FloatExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float InverseLerp(this float f, float from, float to) {
+        return(f - from) / (to - from);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsZeroApprox(this float f) {
         return Math.Abs(f) < 1E-06f;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Min(this float f, float other) {
+        return Mathf.Min(f, other);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Max(this float f, float other) {
+        return Mathf.Max(f, other);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Clamped(this float f, float min, float max) {
+        return Mathf.Clamp(f, min, max);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Abs(this float f) {
+        return Mathf.Abs(f);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Squared(this float f) {
+        return f * f;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Cubed(this float f) {
+        return f * f * f;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Pow(this float f, float power) {
+        return Mathf.Pow(f, power);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float Sqrt(this float f) {
+        return Mathf.Sqrt(f);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
