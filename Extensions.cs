@@ -147,6 +147,21 @@ public static class Vector2Extensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 Scaled(this Vector2 v, float x, float y) {
+        return new(v.X * x, v.Y * y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 ScaledX(this Vector2 v, float x) {
+        return new(v.X * x, v.Y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 ScaledY(this Vector2 v, float y) {
+        return new(v.X, v.Y * y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsXDominant(this Vector2 v) {
         Vector2 absV = v.Abs();
         return (absV.X > absV.Y);
