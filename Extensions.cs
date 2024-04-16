@@ -73,8 +73,8 @@ public static class FloatExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Color AsColour(this float v) {
-        return new(v, v, v, 1.0f);
+    public static Color AsColour(this float v, float a = 1.0f) {
+        return new(v, v, v, a);
     }
 }
 
@@ -144,6 +144,11 @@ public static class Vector2Extensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 RotatedNeg180(this Vector2 v) {
         return v.Rotated(-0.5f * Mathf.Tau);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 Scaled(this Vector2 v, float s) {
+        return new(v.X * s, v.Y * s);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -240,6 +245,29 @@ public static class Vector3Extensions
         result.Z = result.Z.Lerp(o.Z, w);
 
         return result;
+    }
+}
+
+public static class ColourExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ReplaceR(this Color colour, float r) {
+        return new(r, colour.G, colour.B, colour.A);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ReplaceG(this Color colour, float g) {
+        return new(colour.R, g, colour.B, colour.A);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ReplaceB(this Color colour, float b) {
+        return new(colour.R, colour.G, b, colour.A);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ReplaceA(this Color colour, float a) {
+        return new(colour.R, colour.G, colour.B, a);
     }
 }
 
