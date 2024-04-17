@@ -2,6 +2,18 @@ using System.Runtime.CompilerServices;
 
 namespace Godot;
 
+public static class StringExtensions
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string Interned(this string s)
+    {
+        return s switch {
+            null => null,
+            _ => string.Intern(s)
+        };
+    }
+}
+
 public static class FloatExtensions
 {
     /// <summary>
