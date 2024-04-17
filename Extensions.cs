@@ -251,6 +251,37 @@ public static class Vector3Extensions
 public static class ColourExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color Clamped(this Color colour)
+    {
+        return new(
+            colour.R.Clamped(0.0f, 1.0f),
+            colour.G.Clamped(0.0f, 1.0f),
+            colour.B.Clamped(0.0f, 1.0f),
+            colour.A.Clamped(0.0f, 1.0f)
+        );
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color Brightened(this Color colour, float amount) {
+        return Color.FromHsv(colour.H, colour.S, colour.V + amount);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color Saturated(this Color colour, float amount) {
+        return Color.FromHsv(colour.H, colour.S + amount, colour.V);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ShiftSV(this Color colour, float saturation, float value) {
+        return Color.FromHsv(colour.H, colour.S + saturation, colour.V + value);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ShiftHSV(this Color colour, float hue, float saturation, float value) {
+        return Color.FromHsv(colour.H + hue, colour.S + saturation, colour.V + value);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Color ReplaceR(this Color colour, float r) {
         return new(r, colour.G, colour.B, colour.A);
     }
