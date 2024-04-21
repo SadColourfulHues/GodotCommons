@@ -14,7 +14,7 @@ public static class StringExtensions
     }
 }
 
-public static class FloatExtensions
+public static partial class FloatExtensions
 {
     /// <summary>
     /// To make float interpolation consistent with other 'lerp'able types.
@@ -31,27 +31,37 @@ public static class FloatExtensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsZeroApprox(this float f) {
-        return Math.Abs(f) < 1E-06f;
+        return MathF.Abs(f) < 1E-06f;
+    }
+
+    /// https://github.com/godotengine/godot/blob/4a0160241fd0c1e874e297f6b08676cf0761e5e8/core/math/math_funcs.h#L599
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsEqualApprox(this float f, float b, float tolerance = 8.854187817f)
+    {
+        if (f == b)
+			return true;
+
+		return MathF.Abs(f - b) < tolerance;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float Min(this float f, float other) {
-        return Mathf.Min(f, other);
+        return MathF.Min(f, other);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float Max(this float f, float other) {
-        return Mathf.Max(f, other);
+        return MathF.Max(f, other);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float Clamped(this float f, float min, float max) {
-        return Mathf.Clamp(f, min, max);
+        return MathF.Max(min, MathF.Min(max, f));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float Abs(this float f) {
-        return Mathf.Abs(f);
+        return MathF.Abs(f);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -66,12 +76,12 @@ public static class FloatExtensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float Pow(this float f, float power) {
-        return Mathf.Pow(f, power);
+        return MathF.Pow(f, power);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float Sqrt(this float f) {
-        return Mathf.Sqrt(f);
+        return MathF.Sqrt(f);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -140,22 +150,22 @@ public static class Vector2Extensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 Rotated90(this Vector2 v) {
-        return v.Rotated(0.25f * Mathf.Tau);
+        return v.Rotated(0.25f * MathF.Tau);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 Rotated180(this Vector2 v) {
-        return v.Rotated(0.5f * Mathf.Tau);
+        return v.Rotated(0.5f * MathF.Tau);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 RotatedNeg90(this Vector2 v) {
-        return v.Rotated(-0.25f * Mathf.Tau);
+        return v.Rotated(-0.25f * MathF.Tau);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2 RotatedNeg180(this Vector2 v) {
-        return v.Rotated(-0.5f * Mathf.Tau);
+        return v.Rotated(-0.5f * MathF.Tau);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -182,6 +192,16 @@ public static class Vector2Extensions
     public static bool IsXDominant(this Vector2 v) {
         Vector2 absV = v.Abs();
         return (absV.X > absV.Y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 XFlattened(this Vector2 v) {
+        return new(0.0f, v.Y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 YFlattened(this Vector2 v) {
+        return new(v.X, 0.0f);
     }
 }
 
@@ -216,7 +236,7 @@ public static class Vector3Extensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float XZMagnitude(this Vector3 v) {
-        return Mathf.Sqrt((v.X * v.X) + (v.Z * v.Z));
+        return MathF.Sqrt((v.X * v.X) + (v.Z * v.Z));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -274,13 +294,18 @@ public static class ColourExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Color Brightened(this Color colour, float amount) {
-        return Color.FromHsv(colour.H, colour.S, colour.V + amount);
+    public static Color ShiftH(this Color colour, float hue) {
+        return Color.FromHsv(colour.H + hue, colour.S, colour.V);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Color Saturated(this Color colour, float amount) {
-        return Color.FromHsv(colour.H, colour.S + amount, colour.V);
+    public static Color ShiftS(this Color colour, float saturation) {
+        return Color.FromHsv(colour.H, colour.S + saturation, colour.V);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ShiftV(this Color colour, float value) {
+        return Color.FromHsv(colour.H, colour.S, colour.V + value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -311,6 +336,21 @@ public static class ColourExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Color ReplaceA(this Color colour, float a) {
         return new(colour.R, colour.G, colour.B, a);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ReplaceH(this Color colour, float h) {
+        return Color.FromHsv(h, colour.S, colour.V);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ReplaceS(this Color colour, float s) {
+        return Color.FromHsv(colour.H, s, colour.V);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Color ReplaceV(this Color colour, float v) {
+        return Color.FromHsv(colour.H, colour.S, v);
     }
 }
 
